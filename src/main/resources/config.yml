@@ -13,7 +13,7 @@ Bottom:
   B: "      §l§f迎接2024 @minute:@second\n§r§7在EG一起倒数,领取新年大礼包!"
 
 # 倒计时标题
-# A为21-29秒显示的内容
+# A为21-30秒显示的内容
 # B为11-20秒显示的内容
 # C为0-10秒显示的内容
 Title:
@@ -23,14 +23,14 @@ Title:
   Title: "§l§f2024 §c元旦快乐"
 
 # 倒计时副标题
-# A为21-29秒显示的内容
+# A为21-30秒显示的内容
 # B为11-20秒显示的内容
 # C为0-10秒显示的内容
 SubTitle:
   A: "迎接2024, 一起倒计时"
   B: "迎接2024, 一起倒计时"
   C: "迎接2024, 一起倒计时"
-  SubTitle: "携手并进 共筑宏图"
+  SubTitle: ""
 
 # 活动奖励,执行奖励命令
 # 命令后添加&con为控制台执行
@@ -38,13 +38,13 @@ Rewards:
   - "say 新年快乐 @player&con"
 
 # 奖励消息
-RewardMessage: "§e跨年大礼包将分批发出,请稍后在邮件中领取"
+RewardMessage: "跨年大礼包将分批发出,请稍后在邮件中领取"
 
 # 发送标题、放烟花、发送奖励执行延迟
-DelayTime: 40
+DelayTime: 20
 
 # 底部奖励消息内容
-TipMessage: "\n新春奖励将分批发出,请稍后在邮件中领取"
+TipMessage: "新春奖励将分批发出,请稍后在邮件中领取"
 
 # 底部奖励消息循环间隔时长
 TipMessagePeriod: 20
@@ -61,7 +61,7 @@ TipShowTime: 1200
 PlayMusicCmd: "mplus play 0"
 
 # 播放音乐延迟时长
-PlayMusicDelayTime: 20
+PlayMusicDelayTime: 10
 
 # 开发人员模式
 DebugMode: false

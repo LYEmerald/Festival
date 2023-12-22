@@ -56,14 +56,14 @@ public class PluginThread extends Thread {
                             .replace("@second", Utils.addZero(s));
                     if (h > 0) {
                         player.sendTip(tipMessageA);
-                    } else if (s >= 30) {
+                    } else if (s > 30) {
                         player.sendTip(tipMessageB);
                     } else if (m >= 1) {
                         player.sendTip(tipMessageB);
                     }
                     if (h == 0) {
                         if (m == 0) {
-                            if (s < 30) {
+                            if (s <= 30) {
                                 if (s > 20) {
                                     player.sendTitle(config.getString("Title.A").replaceAll("@second", String.valueOf(s)),
                                             config.getString("SubTitle.A"), 0, 40, 0);
