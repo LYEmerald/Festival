@@ -74,8 +74,8 @@ public class PluginThread extends Thread {
                                     player.sendTitle(config.getString("Title.C").replaceAll("@second", String.valueOf(s)),
                                             config.getString("SubTitle.C"), 0, 40, 0);
                                 }
-                                Utils.playSound(player, Sound.NOTE_PLING, 0.797901F);
-                                Utils.playSound(player, Sound.NOTE_CHIME, 0.797901F);
+                                Utils.playSound(player, Sound.NOTE_PLING, 0.840896F);
+                                Utils.playSound(player, Sound.NOTE_CHIME, 0.840896F);
                             }
                         }
                     }
