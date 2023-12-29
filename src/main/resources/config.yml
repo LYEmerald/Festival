@@ -62,6 +62,3 @@ PlayMusicCmd: "mplus play 0"
 
 # 播放音乐延迟时长
 PlayMusicDelayTime: 10
-
-# 开发人员模式
-DebugMode: false

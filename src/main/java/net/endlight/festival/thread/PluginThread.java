@@ -42,9 +42,6 @@ public class PluginThread extends Thread {
             long s = midTime % 60;
 
             if (h <= 23) {
-                if (this.config.getBoolean("DebugMode")) {
-                    Festival.getInstance().getLogger().info("[Debug] " + h + "H" + m + "M" + s + "S");
-                }
                 for (Player player : Festival.getInstance().getServer().getOnlinePlayers().values()) {
                     String tipMessageA = config.getString("Bottom.A")
                             .replace("@hour", Utils.addZero(h))
