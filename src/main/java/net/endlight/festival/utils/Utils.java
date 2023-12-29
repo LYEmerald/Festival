@@ -2,6 +2,10 @@ package net.endlight.festival.utils;
 
 import cn.nukkit.Player;
 import cn.nukkit.entity.item.EntityFirework;
+import cn.nukkit.form.element.ElementButton;
+import cn.nukkit.form.element.ElementInput;
+import cn.nukkit.form.window.FormWindowCustom;
+import cn.nukkit.form.window.FormWindowSimple;
 import cn.nukkit.item.ItemFirework;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Sound;
@@ -15,8 +19,12 @@ import cn.nukkit.nbt.tag.ListTag;
 import cn.nukkit.network.protocol.PlaySoundPacket;
 import cn.nukkit.utils.DyeColor;
 import net.endlight.festival.Festival;
+import net.endlight.festival.thread.PluginThread;
 
 public class Utils {
+
+    public static int MENU = 0xd3f3ba9;
+    public static int SETTING = 0xfed0ee8;
 
     /**
      * 倒计时格式
@@ -77,5 +85,47 @@ public class Utils {
         if (chunk != null) {
             new EntityFirework(chunk, nbt).spawnToAll();
         }
+    }
+
+    /**
+     * 插件表单
+     */
+    public static void sendMainMenu(Player player){
+        FormWindowSimple simple = new FormWindowSimple("§l§cFestival","");
+        simple.addButton(new ElementButton("启动线程"));
+        simple.addButton(new ElementButton("编辑参数"));
+        player.showFormWindow(simple,MENU);
+    }
+
+    public static void sendSettingMenu(Player player){
+        FormWindowCustom custom = new FormWindowCustom("参数设置");
+        custom.addElement(new ElementInput("年","",Festival.getInstance().getConfig().getString("Calendar.Year")));
+        custom.addElement(new ElementInput("月","",Festival.getInstance().getConfig().getString("Calendar.Month")));
+        custom.addElement(new ElementInput("日","",Festival.getInstance().getConfig().getString("Calendar.Day")));
+        custom.addElement(new ElementInput("时","",Festival.getInstance().getConfig().getString("Calendar.Hour")));
+        custom.addElement(new ElementInput("分","",Festival.getInstance().getConfig().getString("Calendar.Minute")));
+        custom.addElement(new ElementInput("秒","",Festival.getInstance().getConfig().getString("Calendar.Second")));
+        player.showFormWindow(custom,SETTING);
+    }
+
+    /**
+     * 启动线程
+     */
+    public static void startThread(){
+        PluginThread pluginThread = new PluginThread(Festival.getInstance().getConfig());
+        pluginThread.start();
+    }
+
+    /**
+     * 设置参数
+     */
+    public static void setConfig(int year, int month, int day, int hour, int minute, int second){
+        Festival.getInstance().getConfig().set("Calendar.Year", year);
+        Festival.getInstance().getConfig().set("Calendar.Month", month);
+        Festival.getInstance().getConfig().set("Calendar.Day", day);
+        Festival.getInstance().getConfig().set("Calendar.Hour", hour);
+        Festival.getInstance().getConfig().set("Calendar.Minute", minute);
+        Festival.getInstance().getConfig().set("Calendar.Second", second);
+        Festival.getInstance().getConfig().save();
     }
 }

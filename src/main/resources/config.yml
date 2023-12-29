@@ -7,6 +7,9 @@ Calendar:
   Minute: 0
   Second: 0
 
+# 是否自动启动线程
+AutoStart: true
+
 # 倒计时底部消息 A为大于1小时时显示的内容,B为小于1小时时显示的内容
 Bottom:
   A: "    §l§f迎接2024 @hour:@minute:@second\n§r§7在EG一起倒数,领取新年大礼包!"
