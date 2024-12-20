@@ -6,11 +6,34 @@
 
     <groupId>net.endlight</groupId>
     <artifactId>Festival</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <name>Festival</name>
+    <description>Festival plugin for nukkit</description>
+    <version>1.0.1</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>nukkitx</id>
+            <url>https://repo.opencollab.dev/main/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.nukkit</groupId>
+            <artifactId>nukkit</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <defaultGoal>clean package</defaultGoal>
+    </build>
 
 </project>
