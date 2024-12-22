@@ -3,6 +3,7 @@ package net.endlight.festival.utils;
 import cn.nukkit.Player;
 import cn.nukkit.entity.item.EntityFirework;
 import cn.nukkit.form.element.ElementButton;
+import cn.nukkit.form.element.ElementButtonImageData;
 import cn.nukkit.form.element.ElementInput;
 import cn.nukkit.form.window.FormWindowCustom;
 import cn.nukkit.form.window.FormWindowSimple;
@@ -92,13 +93,14 @@ public class Utils {
      */
     public static void sendMainMenu(Player player){
         FormWindowSimple simple = new FormWindowSimple("§l§cFestival","");
-        simple.addButton(new ElementButton("启动线程"));
-        simple.addButton(new ElementButton("编辑参数"));
+        simple.addButton(new ElementButton("启动线程", new ElementButtonImageData("path","textures/ui/realms_green_check.png")));
+        simple.addButton(new ElementButton("编辑时间参数",  new ElementButtonImageData("path","textures/items/clock_item.png")));
+        simple.addButton(new ElementButton("编辑系统参数",  new ElementButtonImageData("path","textures/ui/icon_setting.png")));
         player.showFormWindow(simple,MENU);
     }
 
     public static void sendSettingMenu(Player player){
-        FormWindowCustom custom = new FormWindowCustom("参数设置");
+        FormWindowCustom custom = new FormWindowCustom("时间参数设置");
         custom.addElement(new ElementInput("年","",Festival.getInstance().getConfig().getString("Calendar.Year")));
         custom.addElement(new ElementInput("月","",Festival.getInstance().getConfig().getString("Calendar.Month")));
         custom.addElement(new ElementInput("日","",Festival.getInstance().getConfig().getString("Calendar.Day")));
