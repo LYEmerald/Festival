@@ -22,6 +22,9 @@ import cn.nukkit.utils.DyeColor;
 import net.endlight.festival.Festival;
 import net.endlight.festival.thread.PluginThread;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Utils {
 
     public static int MENU = 0xd3f3ba9;
@@ -92,7 +95,7 @@ public class Utils {
      * 插件表单
      */
     public static void sendMainMenu(Player player){
-        FormWindowSimple simple = new FormWindowSimple("§l§cFestival","");
+        FormWindowSimple simple = new FormWindowSimple("§l§cFestival",getRandomMessage());
         simple.addButton(new ElementButton("启动线程", new ElementButtonImageData("path","textures/ui/realms_green_check.png")));
         simple.addButton(new ElementButton("编辑时间参数",  new ElementButtonImageData("path","textures/items/clock_item.png")));
         simple.addButton(new ElementButton("编辑系统参数",  new ElementButtonImageData("path","textures/ui/icon_setting.png")));
@@ -129,5 +132,16 @@ public class Utils {
         Festival.getInstance().getConfig().set("Calendar.Minute", minute);
         Festival.getInstance().getConfig().set("Calendar.Second", second);
         Festival.getInstance().getConfig().save();
+    }
+
+    private final static List<String> RANDOM_MESSAGE = Arrays.asList(
+            "愿你所念之人，此刻正陪伴左右",
+            "时光流转，愿你与珍爱之人，能够再度重逢",
+            "感谢您下载并使用本插件～(∠・ω< )⌒★",
+            "音无结弦之时，悦动天使之心。立于浮华之世，奏响天籁之音。"
+    );
+
+    private static String getRandomMessage() {
+        return RANDOM_MESSAGE.get(Festival.RANDOM.nextInt(RANDOM_MESSAGE.size()));
     }
 }
