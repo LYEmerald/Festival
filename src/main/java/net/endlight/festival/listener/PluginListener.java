@@ -31,6 +31,10 @@ public class PluginListener implements Listener {
                         Utils.sendSettingMenu(player);
                     }
                     break;
+                case 2:
+                    player.sendMessage(TextFormat.GREEN + "本功能正在开发中，敬请期待");
+                    //TODO 系统设置
+                    break;
                 default:
                     break;
             }
