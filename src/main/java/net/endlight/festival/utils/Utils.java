@@ -144,4 +144,22 @@ public class Utils {
     private static String getRandomMessage() {
         return RANDOM_MESSAGE.get(Festival.RANDOM.nextInt(RANDOM_MESSAGE.size()));
     }
+
+    public static void sendMessageToAll(String string){
+        for (Player player : Festival.getInstance().getServer().getOnlinePlayers().values()) {
+            player.sendMessage(string);
+        }
+    }
+    public static void sendTitleToAll(String title,String subtitle,int fadeIn,int stay,int fadeOut){
+        for (Player player : Festival.getInstance().getServer().getOnlinePlayers().values()) {
+            player.sendTitle(title,subtitle,fadeIn,stay,fadeOut);
+        }
+    }
+
+    public static void sendTipToAll(String string){
+        for (Player player : Festival.getInstance().getServer().getOnlinePlayers().values()) {
+            player.sendTip(string);
+        }
+    }
+
 }
