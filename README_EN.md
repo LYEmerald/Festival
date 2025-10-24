@@ -1,5 +1,5 @@
 # Festival 节日倒计时插件
-请 [点击这里](https://github.com/LYEmerald/Festival/blob/main/README_EN.md) 查看中文介绍.
+请 [点击这里](https://github.com/LYEmerald/Festival/blob/main/README.md) 查看中文介绍.
 > [!NOTE]
 > This introduction is machine-translated and may not be completely accurate.
 ## Plugin Introduction
