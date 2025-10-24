@@ -32,8 +32,9 @@ public class PluginListener implements Listener {
                     }
                     break;
                 case 2:
-                    player.sendMessage(TextFormat.GREEN + "本功能正在开发中，敬请期待");
-                    //TODO 系统设置
+                    if (player.isOp()) {
+                        Utils.sendSystemMenu(player);
+                    }
                     break;
                 default:
                     break;
@@ -47,8 +48,22 @@ public class PluginListener implements Listener {
             int hour = Integer.parseInt(String.valueOf(response.getResponse(3)));
             int minute = Integer.parseInt(String.valueOf(response.getResponse(4)));
             int second = Integer.parseInt(String.valueOf(response.getResponse(5)));
-            Utils.setConfig(year,month,day,hour,minute,second);
-            player.sendMessage(TextFormat.GREEN + "配置保存成功!");
+            Utils.setTimeConfig(year,month,day,hour,minute,second);
+            player.sendMessage(TextFormat.GREEN + "时间配置保存成功!");
+        }
+        if (id == Utils.SYSTEM){
+            FormResponseCustom response = (FormResponseCustom) event.getResponse();
+            boolean AutoStart = Boolean.parseBoolean(String.valueOf(response.getResponse(0)));
+            String RewardMessage = String.valueOf(response.getResponse(1));
+            int DelayTime = Integer.parseInt(String.valueOf(response.getResponse(2)));
+            String TipMessage = String.valueOf(response.getResponse(3));
+            int TipMessagePeriod = Integer.parseInt(String.valueOf(response.getResponse(4)));
+            int TipMessageDelayTime = Integer.parseInt(String.valueOf(response.getResponse(5)));
+            int TipShowTime = Integer.parseInt(String.valueOf(response.getResponse(6)));
+            String PlayMusicCmd = String.valueOf(response.getResponse(7));
+            int PlayMusicDelayTime = Integer.parseInt(String.valueOf(response.getResponse(8)));
+            Utils.setSystemConfig(AutoStart,RewardMessage,DelayTime,TipMessage,TipMessagePeriod,TipMessageDelayTime,TipShowTime,PlayMusicCmd,PlayMusicDelayTime);
+            player.sendMessage(TextFormat.GREEN + "系统配置保存成功!");
         }
     }
 }

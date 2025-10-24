@@ -1,6 +1,6 @@
 main: net.endlight.festival.Festival
 name: Festival
-version: "1.0.1"
+version: "1.0.2"
 author: "LYEmerald"
 api: ["1.0.14"]
 

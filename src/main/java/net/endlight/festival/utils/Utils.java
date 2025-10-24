@@ -1,10 +1,12 @@
 package net.endlight.festival.utils;
 
+import cn.nukkit.Nukkit;
 import cn.nukkit.Player;
 import cn.nukkit.entity.item.EntityFirework;
 import cn.nukkit.form.element.ElementButton;
 import cn.nukkit.form.element.ElementButtonImageData;
 import cn.nukkit.form.element.ElementInput;
+import cn.nukkit.form.element.ElementToggle;
 import cn.nukkit.form.window.FormWindowCustom;
 import cn.nukkit.form.window.FormWindowSimple;
 import cn.nukkit.item.ItemFirework;
@@ -29,6 +31,7 @@ public class Utils {
 
     public static int MENU = 0xd3f3ba9;
     public static int SETTING = 0xfed0ee8;
+    public static int SYSTEM = 0xe36c80e;
 
     /**
      * 倒计时格式
@@ -113,6 +116,20 @@ public class Utils {
         player.showFormWindow(custom,SETTING);
     }
 
+    public static void sendSystemMenu(Player player){
+        FormWindowCustom custom = new FormWindowCustom("系统参数设置");
+        custom.addElement(new ElementToggle("自动启动线程",Festival.getInstance().getConfig().getBoolean("AutoStart")));
+        custom.addElement(new ElementInput("奖励消息",Festival.getInstance().getConfig().getString("RewardMessage"),Festival.getInstance().getConfig().getString("RewardMessage")));
+        custom.addElement(new ElementInput("发送标题、放烟花、发送奖励执行延迟",Festival.getInstance().getConfig().getString("DelayTime"),Festival.getInstance().getConfig().getString("DelayTime")));
+        custom.addElement(new ElementInput("底部奖励消息内容",Festival.getInstance().getConfig().getString("TipMessage"),Festival.getInstance().getConfig().getString("TipMessage")));
+        custom.addElement(new ElementInput("底部奖励消息循环间隔时长",Festival.getInstance().getConfig().getString("TipMessagePeriod"),Festival.getInstance().getConfig().getString("TipMessagePeriod")));
+        custom.addElement(new ElementInput("底部奖励消息延迟时长",Festival.getInstance().getConfig().getString("TipMessageDelayTime"),Festival.getInstance().getConfig().getString("TipMessageDelayTime")));
+        custom.addElement(new ElementInput("底部奖励消息显示时长",Festival.getInstance().getConfig().getString("TipShowTime"),Festival.getInstance().getConfig().getString("TipShowTime")));
+        custom.addElement(new ElementInput("播放音乐命令(若使用外部音乐播放器）",Festival.getInstance().getConfig().getString("PlayMusicCmd"),Festival.getInstance().getConfig().getString("PlayMusicCmd")));
+        custom.addElement(new ElementInput("播放音乐延迟时长",Festival.getInstance().getConfig().getString("PlayMusicDelayTime"),Festival.getInstance().getConfig().getString("PlayMusicDelayTime")));
+        player.showFormWindow(custom,SYSTEM);
+    }
+
     /**
      * 启动线程
      */
@@ -122,9 +139,9 @@ public class Utils {
     }
 
     /**
-     * 设置参数
+     * 设置时间参数
      */
-    public static void setConfig(int year, int month, int day, int hour, int minute, int second){
+    public static void setTimeConfig(int year, int month, int day, int hour, int minute, int second){
         Festival.getInstance().getConfig().set("Calendar.Year", year);
         Festival.getInstance().getConfig().set("Calendar.Month", month);
         Festival.getInstance().getConfig().set("Calendar.Day", day);
@@ -134,11 +151,22 @@ public class Utils {
         Festival.getInstance().getConfig().save();
     }
 
+    public static void setSystemConfig(boolean AutoStart, String RewardMessage, int DelayTime,String TipMessage,int TipMessagePeriod,int TipMessageDelayTime, int TipShowTime, String PlayMusicCmd,int PlayMusicDelayTime){
+        Festival.getInstance().getConfig().set("AutoStart",AutoStart);
+        Festival.getInstance().getConfig().set("RewardMessage",RewardMessage);
+        Festival.getInstance().getConfig().set("DelayTime",DelayTime);
+        Festival.getInstance().getConfig().set("TipMessage",TipMessage);
+        Festival.getInstance().getConfig().set("TipMessagePeriod",TipMessagePeriod);
+        Festival.getInstance().getConfig().set("TipMessageDelayTime",TipMessageDelayTime);
+        Festival.getInstance().getConfig().set("TipShowTime",TipShowTime);
+        Festival.getInstance().getConfig().set("PlayMusicCmd",PlayMusicCmd);
+        Festival.getInstance().getConfig().set("PlayMusicDelayTime",PlayMusicDelayTime);
+    }
+
     private final static List<String> RANDOM_MESSAGE = Arrays.asList(
-            "愿你所念之人，此刻正陪伴左右",
-            "时光流转，愿你与珍爱之人，能够再度重逢",
-            "感谢您下载并使用本插件～(∠・ω< )⌒★",
-            "音无结弦之时，悦动天使之心。立于浮华之世，奏响天籁之音。"
+            "Thank you for downloading and using this plugin!",
+            "For more information about this plugin, visit https://github.com/LYEmerald/Festival",
+            "You are running Festival v"+Festival.VERSION + " on Nukkit (" + Nukkit.VERSION +")"
     );
 
     private static String getRandomMessage() {

@@ -8,7 +8,7 @@
     <artifactId>Festival</artifactId>
     <name>Festival</name>
     <description>Festival plugin for nukkit</description>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
