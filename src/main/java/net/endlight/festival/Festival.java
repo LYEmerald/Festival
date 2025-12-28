@@ -20,6 +20,7 @@ public class Festival extends PluginBase {
         return plugin;
     }
 
+
     @Override
     public void onLoad() {
         this.getLogger().info(TextFormat.BLUE + "Festival启动中,感谢您的下载与使用!");

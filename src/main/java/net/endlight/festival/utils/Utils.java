@@ -11,6 +11,7 @@ import cn.nukkit.form.window.FormWindowCustom;
 import cn.nukkit.form.window.FormWindowSimple;
 import cn.nukkit.item.ItemFirework;
 import cn.nukkit.level.Level;
+import cn.nukkit.level.Position;
 import cn.nukkit.level.Sound;
 import cn.nukkit.level.format.FullChunk;
 import cn.nukkit.math.Vector3;
@@ -26,12 +27,14 @@ import net.endlight.festival.thread.PluginThread;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class Utils {
 
     public static int MENU = 0xd3f3ba9;
     public static int SETTING = 0xfed0ee8;
     public static int SYSTEM = 0xe36c80e;
+
 
     /**
      * 倒计时格式
@@ -58,22 +61,33 @@ public class Utils {
     }
 
     /**
-     * 放烟花
-     * 参考：https://github.com/PetteriM1/FireworkShow
+     * 字符串转坐标
      */
-    public static void spawnFirework(Vector3 pos,Level level) {
-        ItemFirework item = new ItemFirework();
-        CompoundTag tag = new CompoundTag();
-        CompoundTag ex = new CompoundTag()
-                .putByteArray("FireworkColor", new byte[]{(byte) DyeColor.values()[Festival.RANDOM.nextInt(ItemFirework.FireworkExplosion.ExplosionType.values().length)].getDyeData()})
-                .putByteArray("FireworkFade", new byte[]{})
-                .putBoolean("FireworkFlicker", Festival.RANDOM.nextBoolean())
-                .putBoolean("FireworkTrail", Festival.RANDOM.nextBoolean())
-                .putByte("FireworkType", ItemFirework.FireworkExplosion.ExplosionType.values()[Festival.RANDOM.nextInt(ItemFirework.FireworkExplosion.ExplosionType.values().length)].ordinal());
-        tag.putCompound("Fireworks", new CompoundTag("Fireworks")
-                .putList(new ListTag<CompoundTag>("Explosions").add(ex))
-                .putByte("Flight", 1));
-        item.setNamedTag(tag);
+    public static Position strToPos(String str) {
+        double x = Double.valueOf(str.split(":")[0]);
+        double y = Double.valueOf(str.split(":")[1]);
+        double z = Double.valueOf(str.split(":")[2]);
+        Level level = Festival.getInstance().getServer().getLevelByName(str.split(":")[3]);
+        return new Position(x+0.5, y, z+0.5, level);
+    }
+
+    /**
+     * 放烟花
+     */
+    public static void spawnFirework(Vector3 pos, Level level) {
+        // 创建烟花实体
+        EntityFirework firework = new EntityFirework(
+                level.getChunk((int) pos.x >> 4, (int) pos.z >> 4),
+                createFireworkNBT(pos)
+        );
+
+        // 生成到世界
+        firework.spawnToAll();
+    }
+
+    private static CompoundTag createFireworkNBT(Vector3 pos) {
+        Random random = new Random();
+
         CompoundTag nbt = new CompoundTag()
                 .putList(new ListTag<DoubleTag>("Pos")
                         .add(new DoubleTag("", pos.x + 0.5))
@@ -81,18 +95,57 @@ public class Utils {
                         .add(new DoubleTag("", pos.z + 0.5)))
                 .putList(new ListTag<DoubleTag>("Motion")
                         .add(new DoubleTag("", 0))
-                        .add(new DoubleTag("", 0))
+                        .add(new DoubleTag("", 0.5)) // 向上速度
                         .add(new DoubleTag("", 0)))
                 .putList(new ListTag<FloatTag>("Rotation")
                         .add(new FloatTag("", 0))
                         .add(new FloatTag("", 0)))
-                .putCompound("FireworkItem", NBTIO.putItemHelper(item));
+                .putCompound("FireworksItem", createRandomFireworkItem(random));
 
-        FullChunk chunk = level.getChunkIfLoaded(pos.getChunkX(), pos.getChunkZ());
-        if (chunk != null) {
-            new EntityFirework(chunk, nbt).spawnToAll();
-        }
+        return nbt;
     }
+
+    private static CompoundTag createRandomFireworkItem(Random random) {
+        CompoundTag explosion = new CompoundTag();
+
+        int type = random.nextInt(5);
+        explosion.putByte("Type", type);
+
+        int colorCount = random.nextInt(3) + 1;
+        ListTag<CompoundTag> colors = new ListTag<>("Colors");
+        for (int i = 0; i < colorCount; i++) {
+            int r = random.nextInt(256);
+            int g = random.nextInt(256);
+            int b = random.nextInt(256);
+            int rgb = (r << 16) | (g << 8) | b;
+            colors.add(new CompoundTag().putInt("", rgb));
+        }
+        explosion.putList(colors);
+
+        if (random.nextBoolean()) {
+            ListTag<CompoundTag> fadeColors = new ListTag<>("FadeColors");
+            int fadeR = random.nextInt(256);
+            int fadeG = random.nextInt(256);
+            int fadeB = random.nextInt(256);
+            int fadeRGB = (fadeR << 16) | (fadeG << 8) | fadeB;
+            fadeColors.add(new CompoundTag().putInt("", fadeRGB));
+            explosion.putList(fadeColors);
+        }
+
+        explosion.putBoolean("Flicker", random.nextBoolean()); // 闪烁
+        explosion.putBoolean("Trail", random.nextBoolean());   // 拖尾
+
+        CompoundTag fireworks = new CompoundTag()
+                .putList(new ListTag<CompoundTag>("Explosions")
+                        .add(explosion))
+                .putByte("Flight", random.nextInt(3) + 1); // 飞行时间(1-3)
+
+        return new CompoundTag()
+                .putShort("id", ItemFirework.FIREWORKS)
+                .putByte("Count", 1)
+                .putCompound("tag", fireworks);
+    }
+
 
     /**
      * 插件表单

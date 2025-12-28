@@ -3,6 +3,7 @@ package net.endlight.festival.thread;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.command.ConsoleCommandSender;
+import cn.nukkit.level.Position;
 import cn.nukkit.level.Sound;
 import cn.nukkit.utils.Config;
 import net.endlight.festival.Festival;
@@ -42,6 +43,12 @@ public class PluginThread extends Thread {
             long s = midTime % 60;
 
             if (h <= 23) {
+                if (config.getBoolean("FireworkShow")) {
+                    for (String pos_str : config.getStringList("FireworkPosition")){
+                        Position firework_pos = Utils.strToPos(pos_str);
+                        Utils.spawnFirework(firework_pos,firework_pos.level);
+                    }
+                }
                     String tipMessageA = config.getString("Bottom.A")
                             .replace("@hour", Utils.addZero(h))
                             .replace("@minute", Utils.addZero(m))

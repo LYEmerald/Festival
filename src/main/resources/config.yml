@@ -142,3 +142,11 @@ PlayMusicCmd: "mplus play 0"
 
 # 播放音乐延迟时长
 PlayMusicDelayTime: 10
+
+#烟花秀
+FireworkShow: true
+
+#烟花秀坐标
+FireworkPosition:
+  - "0:100:0:world"
+  - "5:100:0:world"
