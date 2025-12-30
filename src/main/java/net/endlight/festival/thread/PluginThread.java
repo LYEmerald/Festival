@@ -20,6 +20,8 @@ public class PluginThread extends Thread {
         this.config = config;
     }
 
+    public static boolean in23h;
+
     @Override
     public void run() {
         Calendar calendar = Calendar.getInstance();
@@ -43,12 +45,7 @@ public class PluginThread extends Thread {
             long s = midTime % 60;
 
             if (h <= 23) {
-                if (config.getBoolean("FireworkShow")) {
-                    for (String pos_str : config.getStringList("FireworkPosition")){
-                        Position firework_pos = Utils.strToPos(pos_str);
-                        Utils.spawnFirework(firework_pos,firework_pos.level);
-                    }
-                }
+                 in23h = true;
                     String tipMessageA = config.getString("Bottom.A")
                             .replace("@hour", Utils.addZero(h))
                             .replace("@minute", Utils.addZero(m))
@@ -216,7 +213,7 @@ public class PluginThread extends Thread {
                                     config.getString("Final_Title.SubTitle"), 10, 60, 10);
                             // 发送标题
 
-                            Utils.spawnFirework(player.getPosition(),player.getLevel());
+                            Utils.spawnFirework(player.getPosition());
                             // 放烟花
 
                             player.sendMessage(this.config.getString("RewardMessage"));
@@ -248,7 +245,13 @@ public class PluginThread extends Thread {
                         Festival.getInstance().getServer().getScheduler().cancelAllTasks();
                         // 一定时长后取消Task
                     },config.getInt("TipShowTime"));
+                    Festival.getInstance().getServer().getScheduler().scheduleDelayedTask(Festival.getInstance(), () -> {
+                        in23h = false;
+                        // 一定时长后停止燃放烟花
+                    },config.getInt("FireworkShowTime"));
                 }
+            } else {
+                in23h = false;
             }
                 try {
                     Thread.sleep(1000);

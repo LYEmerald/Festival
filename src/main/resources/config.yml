@@ -145,6 +145,10 @@ PlayMusicDelayTime: 10
 
 #烟花秀
 FireworkShow: true
+SpawnTick: 40
+
+#倒计时结束后烟花秀持续时间
+FireworkShowTime: 6000
 
 #烟花秀坐标
 FireworkPosition:

@@ -4,6 +4,7 @@ import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.TextFormat;
 import net.endlight.festival.command.PluginCommand;
 import net.endlight.festival.listener.PluginListener;
+import net.endlight.festival.thread.FireworkTask;
 import net.endlight.festival.thread.PluginThread;
 
 import java.util.Random;
@@ -33,7 +34,14 @@ public class Festival extends PluginBase {
         PluginThread pluginThread = new PluginThread(this.getConfig());
         if (this.getConfig().getBoolean("AutoStart")) {
             pluginThread.start();
-            this.getLogger().info(TextFormat.GREEN + "线程启动成功!");
+            this.getLogger().info(TextFormat.GREEN + "主线程启动成功!");
+
+            if (this.getConfig().getBoolean("FireworkShow")){
+                this.getServer().getScheduler().scheduleDelayedRepeatingTask(this, new FireworkTask(), this.getConfig().getInt("SpawnTick"), this.getConfig().getInt("SpawnTick"));
+                this.getLogger().info(TextFormat.GREEN + "烟花秀任务启动成功!");
+            } else {
+                this.getLogger().info(TextFormat.GREEN + "烟花秀任务未启用!");
+            }
         }
         this.getServer().getCommandMap().register("festival",new PluginCommand());
         this.getServer().getPluginManager().registerEvents(new PluginListener(), this);
